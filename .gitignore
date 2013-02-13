@@ -1,0 +1,2 @@
+# Don't include sbatch output from slurm
+slurm-*
