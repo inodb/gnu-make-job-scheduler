@@ -11,8 +11,17 @@ phife.txt: qtip.txt
 qtip.txt:
 	$(call schedule_with_deps_and_store_id,-p core --qos=short -t 00:01:00 $(SBATCH_STD_OPT),make $@)
 
+crowdagain.txt: crowd.txt qtipsoloagain.txt
+	$(call schedule_with_deps_and_store_id,-p core --qos=short -t 00:01:00 $(SBATCH_STD_OPT),make $@)
+crowd.txt: qtipsolo.txt
+	$(call schedule_with_deps_and_store_id,-p core --qos=short -t 00:01:00 $(SBATCH_STD_OPT),make $@)
+qtipsoloagain.txt: 
+	$(call schedule_with_deps_and_store_id,-p core --qos=short -t 00:01:00 $(SBATCH_STD_OPT),make $@)
+qtipsolo.txt:
+	$(call schedule_with_deps_and_store_id,-p core --qos=short -t 00:01:00 $(SBATCH_STD_OPT),make $@)
+
 .PHONY:
-all: phife.txt
+all: phife.txt crowdagain.txt
 clean:
 	-rm -rf slurm-phife.txt-* slurm-qtip.txt-*
 	$(MAKE) clean
