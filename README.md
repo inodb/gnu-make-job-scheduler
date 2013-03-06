@@ -1,6 +1,6 @@
 # gnu-make-job-scheduler
 
-## A library for GNU make to schedule jobs with qsub or sbatch
+## A library for GNU make to schedule rules as jobs with qsub or sbatch
 
 ### Introduction
 
