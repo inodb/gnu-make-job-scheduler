@@ -14,7 +14,7 @@
 #       Parameters     #
 ########################
 USER_SUPPLIED_DEP_IDS?=
-SCHEDULER?=sbatch # or qsub
+SCHEDULER?=sbatch
 ########################
 #      /Parameters     #
 ########################
@@ -38,9 +38,9 @@ SPACE:= $(EMPTY) $(EMPTY)
 # Check if this is a dry run
 DRY_RUN:=$(filter %n n%,$(MAKEFLAGS))
 
-DIRECTORY:=$(abspath $(dir $(lastword $(MAKEFILE_LIST))))
-SBATCH_JOB_SCRIPT:=$(DIRECTORY)/wrapper_jobscript.sbatch
-PBS_JOB_SCRIPT:=$(DIRECTORY)/wrapper_jobscript.pbs
+DIRECTORY?=$(abspath $(dir $(lastword $(MAKEFILE_LIST))))
+SBATCH_JOB_SCRIPT?=$(DIRECTORY)/wrapper_jobscript.sbatch
+PBS_JOB_SCRIPT?=$(DIRECTORY)/wrapper_jobscript.pbs
 ##########################################
 # /Variables unchanged after declaration #
 ##########################################
