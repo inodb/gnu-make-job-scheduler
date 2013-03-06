@@ -1,0 +1,33 @@
+#!/bin/bash
+HELPDOC=$( cat <<EOF
+Wrapper job script for qsub. Runs commands in environment variable
+QSUB_ARGUMENTS.
+
+Usage:
+    qsub [qsub options] -v QSUB_ARGUMENTS=cmd qsub
+EOF
+)
+# Halt on error
+set -e
+
+# Check if arguments are given
+if [ "x" == "x$QSUB_ARGUMENTS" ] ; then
+    echo "Commands to run should be given through environment variable QSUB_ARGUMENTS" >&2
+    exit 1
+fi
+
+echo "## ##"
+echo "## START JOB $PBS_JOBID - $PBS_JOBNAME"
+echo "## `date`"
+echo "## COMMAND: $QSUB_ARGUMENTS"
+
+T="$(date +%s)"
+eval $QSUB_ARGUMENTS 2>&1
+rc=$?
+T="$(($(date +%s)-T))"
+
+echo "## Return code: $rc"
+echo "## `date`"
+printf "## Elapsed time: %02d-%02d:%02d:%02d\n" "$((T/86400))" "$((T/3600%24))" "$((T/60%60))" "$((T%60))"
+echo "## FINISHED JOB $PBS_JOBID - $PBS_JOBNAME"
+echo "## ##"

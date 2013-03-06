@@ -1,0 +1,28 @@
+#TODO:
+# - Check if output is correct
+
+SCHEDULER:=qsub
+include ../scheduler.mk
+
+# Change options for your own cluster
+SCHEDULE_STD_OPT=-N $@ -d $(shell pwd) -e $(shell pwd)/$@-pbs.err -o $(shell pwd)/$@-pbs.out -l procs=1,walltime=00:01:00
+
+phife.txt: qtip.txt
+	$(call schedule_with_deps_and_store_id,$(SCHEDULE_STD_OPT),make $@)
+qtip.txt:
+	$(call schedule_with_deps_and_store_id,$(SCHEDULE_STD_OPT),make $@)
+
+crowdagain.txt: crowd.txt qtipsoloagain.txt
+	$(call schedule_with_deps_and_store_id,$(SCHEDULE_STD_OPT),make $@)
+crowd.txt: qtipsolo.txt
+	$(call schedule_with_deps_and_store_id,$(SCHEDULE_STD_OPT),make $@)
+qtipsoloagain.txt: 
+	$(call schedule_with_deps_and_store_id,$(SCHEDULE_STD_OPT),make $@)
+qtipsolo.txt:
+	$(call schedule_with_deps_and_store_id,$(SCHEDULE_STD_OPT),make $@)
+
+.PHONY:
+all: phife.txt crowdagain.txt
+clean:
+	-rm -rf *-pbs.out *-pbs.err
+	$(MAKE) clean
