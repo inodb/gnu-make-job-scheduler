@@ -7,7 +7,7 @@
 GNU make is not only a popular building tool for compiling programs, but is
 also often used to create simple pipelines especially in bioinformatics. On a
 computing cluster of nodes, one often has the ability to schedule jobs using a
-[job scheduler]. One can either:
+[job scheduler]. When it comes to running the pipeline one can either:
 
 1. Schedule the entire pipeline in one job
 2. Schedule parts of the pipeline in separate jobs. A job that is dependent on
